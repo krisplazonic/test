@@ -1,0 +1,28 @@
+
+groups:
+- name: Services_Alerts
+  rules:
+    - alert: No_Cassandra_Heartbeat
+      expr: rate(mesos_master_frameworks_events{event_type="heartbeat",framework_name="cassandra"}[5m]) == 0 or absent(mesos_master_frameworks_events{event_type="heartbeat",framework_name="cassandra"}) == 1
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "No Cassandra heartbeat detected for 15m"
+        description: ""
+    - alert: No_Hdfs_Heartbeat
+      expr: rate(mesos_master_frameworks_events{event_type="heartbeat",framework_name="hdfs"}[5m]) == 0 or absent(mesos_master_frameworks_events{event_type="heartbeat",framework_name="hdfs"}) == 1
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "No HDFS heartbeat detected for 15m"
+        description: ""
+    - alert: No_Elastic_Heartbeat
+      expr: rate(mesos_master_frameworks_events{event_type="heartbeat",framework_name="elastic"}[5m]) == 0 or absent(mesos_master_frameworks_events{event_type="heartbeat",framework_name="elastic"}) == 1
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "No Elastic heartbeat detected for 15m"
+        description: ""

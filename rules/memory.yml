@@ -1,0 +1,21 @@
+
+groups:
+- name: Memory_Alerts
+  rules:
+    - alert: Average_Cluster_Memory_Usage
+      expr: (1 - avg(mem_free/mem_total))*100 > 90
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "Average cluster memory usage exceeds 90%"
+        description: "Current value = {{ $value }}%"
+    - alert: Max_Mesos_Master_Memory_Usage
+      expr: sort_desc(1-mem_free{job="master-metrics"}/mem_total{job="master-metrics"})*100 > 90
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "Mesos master memory usage exceeds 90%"
+        description: "Current value = {{ $value }}% on {{ $labels.instance }}"
+

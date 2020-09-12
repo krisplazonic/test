@@ -1,0 +1,11 @@
+groups:
+- name: Cluster_Health_Alerts
+  rules:
+    - alert: Node_Offline
+      expr: rate(mesos_master_slave_removals_reason_unhealthy{state="leader"}[1h]) > 0
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "Unhealthy mesos agent down for more than 1 hour"
+        description: ""

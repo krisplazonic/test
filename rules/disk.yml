@@ -1,0 +1,11 @@
+groups:
+- name: Disk_Alerts
+  rules:
+    - alert: High_Disk_Space_Usage
+      expr: disk_used_percent > 80
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "High disk space usage (instance {{ $labels.instance }}, {{ $labels.path }}, {{ $labels.device }})"
+        description: "current value = {{ $value }}%"

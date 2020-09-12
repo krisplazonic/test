@@ -1,0 +1,12 @@
+
+groups:
+- name: Cassandra_Alerts
+  rules:
+    - alert: Many_Connected_Clients
+      expr: sum(org_apache_cassandra_metrics_Client_connectedNativeClients{task_name=~"$task_name", service_name="$service_name"}) > 1000
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        description: "More than 1,000 Connected Native Clients. Current value is {{ $value }}"
+

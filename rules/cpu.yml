@@ -1,0 +1,28 @@
+
+groups:
+- name: CPU_Alerts
+  rules:
+    - alert: High_Average_Cluster_Cpu_Load
+      expr: 100 - avg(cpu_usage_idle{cpu="cpu-total"}) > 80
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "Average cpu usage exceeds 80% on the cluster"
+        description: "current value = {{ $value }}%"
+    - alert: High_Allocated_Cluster_Cpu_Load
+      expr: avg(mesos_slave_cpus_percent)*100 > 80
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "Average cpu allocation exceeds 80% on the cluster"
+        description: "current value = {{ $value }}%"
+    - alert: High_IO
+      expr: cpu_usage_iowait{cpu="cpu-total"} > 80
+      for: 15m
+      labels:
+        severity: high
+      annotations:
+        summary: "High IO detected on {{ $labels.instance }}"
+        description: "current value = {{ $value }}%"
