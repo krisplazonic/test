@@ -1,0 +1,20 @@
+# see https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml for an example
+# the example contains explanations of all the fields below
+# note that the slack hookurl is defined while installing dcos-monitoring package, so it's not repeated here
+
+# global settings such as email smtp, webhooks etc. 
+# global:
+
+route:
+  group_by: ['alertname', 'severity']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1d
+  receiver: 'slack-notifications'
+
+receivers:
+- name: 'slack-notifications'
+  slack_configs:
+  - channel: '#test-alert'
+    title: "{{ .GroupLabels.alertname }}/{{ .GroupLabels.severity }}"
+    text: '{{ .CommonAnnotations.summary }} - {{ .CommonAnnotations.description }}'
